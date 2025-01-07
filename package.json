@@ -1,0 +1,29 @@
+{
+  "name": "masjid-management-software",
+  "version": "1.1.0",
+  "description": "A management app made for masjid teachers and IT admins to manage members of the masjid",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r-ddle/masjid-management-software.git"
+  },
+  "author": "r-ddle, shakir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/r-ddle/masjid-management-software/issues"
+  },
+  "homepage": "https://github.com/r-ddle/masjid-management-software#readme",
+  "devDependencies": {
+    "daisyui": "^4.12.23",
+    "electron": "^33.2.1",
+    "tailwindcss": "^3.4.17"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mongodb": "^6.12.0"
+  }
+}

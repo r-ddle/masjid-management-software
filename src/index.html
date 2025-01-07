@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +7,24 @@
     <link rel="stylesheet" href="output.css" />
   </head>
   <body>
-    <h1 class="">Hello</h1>
-    <button class="btn-circle btn btn-primary">Button</button>
+    <main class="flex flex-col justify-center items-center h-screen">
+      <h1 class="text-3xl font-bold">Masjid Management System</h1>
+      <form id="loginForm" class="grid space-y-3 mt-6">
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter your username"
+          class="input input-primary w-full max-w-xs"
+        />
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          class="input input-primary w-full max-w-xs"
+        />
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </main>
   </body>
+  <script src="./renderer.js"></script>
 </html>

@@ -33,10 +33,17 @@ document
     }
   });
 
+const easteregg = document.getElementById("easteregg");
+const failToast = document.getElementById("failToast");
+const failMsg = document.getElementById("failToastMsg");
+
 document.getElementById("gojo").addEventListener("mouseenter", () => {
-  failToast.innerHTML = "Gojo is gay";
+  easteregg.classList.remove("hidden");
   failToast.classList.remove("hidden");
+  failMsg.classList.add("hidden");
   setTimeout(() => {
+    easteregg.classList.add("hidden");
     failToast.classList.add("hidden");
-  }, 100);
+    failMsg.classList.remove("hidden");
+  }, 500);
 });

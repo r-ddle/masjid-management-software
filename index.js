@@ -40,6 +40,8 @@ function createDashboardWindow() {
   });
 }
 
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
+
 app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {

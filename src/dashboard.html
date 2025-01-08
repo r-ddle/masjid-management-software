@@ -1,45 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
-  +
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <link rel="stylesheet" href="./output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
+  <body class="font-grotesk">
+    <!-- top navigation to select locations -->
+    <div
+      class="flex justify-between items-center p-4 shadow-md rounded-lg m-2 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100"
+    >
+      <div class="dropdown">
+        <label tabindex="0" class="btn text-base">Select a Location</label>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu shadow bg-base-100 rounded-box w-52"
+        >
+          <li><a>Item 1</a></li>
+          <li><a>Item 2</a></li>
+        </ul>
+      </div>
+      <header class="text-2xl font-bold text-center flex-grow">
+        No Location Chosen
+      </header>
+      <div class="flex space-x-4">
+        <!-- Add extra buttons here -->
+        <button class="btn text-base">Add Admin</button>
+        <button class="btn text-base">Add Member</button>
+      </div>
+    </div>
     <div class="overflow-x-auto">
       <table class="table">
-        <!-- head -->
-        <thead>
+        <!-- mapping member details from database from JS -->
+        <thead class="text-base">
           <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
+            <th class="w-1/4">Name</th>
+            <th class="w-1/4">Address</th>
+            <th class="w-2/4">Payment Status</th>
+            <th class="w-1/4">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- row 1 -->
-          <tr class="bg-base-200">
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          <!-- row 2 -->
+        <tbody class="text-base font-bold">
           <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          <!-- row 3 -->
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
+            <td>Mohammed M. Idk</td>
+            <td>123 Dickhenawatha</td>
+            <td>
+              <button class="btn">Jan</button>
+              <button class="btn btn-error">Feb</button>
+              <button class="btn">Mar</button>
+              <button class="btn">Apr</button>
+            </td>
+            <td>
+              <button class="btn">Edit</button>
+            </td>
           </tr>
         </tbody>
       </table>

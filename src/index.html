@@ -5,24 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Masjid Management System</title>
     <link rel="stylesheet" href="output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
+  <style>
+    input::placeholder {
+      font-weight: 700;
+    }
+  </style>
+  <body class="bg-loginbg font-grotesk">
     <main class="flex flex-col justify-center items-center h-screen">
-      <h1 class="text-3xl font-bold">Masjid Management System</h1>
+      <h1 class="text-5xl font-bold text-center">
+        Masjid Mana<span id="gojo">g</span>ement <br />
+        System
+      </h1>
       <form id="loginForm" class="grid space-y-3 mt-6">
         <input
           type="text"
           id="username"
-          placeholder="Enter your username"
-          class="input input-primary w-full max-w-xs"
+          placeholder="Enter your username..."
+          class="input w-full max-w-xs font-bold"
         />
         <input
           type="password"
           id="password"
-          placeholder="Enter your password"
-          class="input input-primary w-full max-w-xs"
+          placeholder="Enter your password..."
+          class="input max-w-xs w-96 font-bold"
         />
-        <button type="submit" class="btn btn-primary">Login</button>
+        <!-- Incorrect user and pass toast message -->
+        <div class="toast toast-center toast-top hidden" id="failToast">
+          <div class="alert alert-error">
+            <span>Incorrect username or password.</span>
+          </div>
+        </div>
+
+        <button type="submit" id="loginBtn" class="btn btn-primary">
+          <span id="btnTxt" class="text-xl font-bold">Login</span>
+          <span
+            id="loadingState"
+            class="loading loading-spinner loading-xs hidden"
+          ></span>
+        </button>
       </form>
     </main>
   </body>

@@ -8,4 +8,14 @@ contextBridge.exposeInMainWorld("api", {
   notifyLoginSuccess: () => {
     ipcRenderer.send("login-success");
   },
+  openJanazaWindow: () => {
+    ipcRenderer.send("open-janaza");
+  },
+  openHiflWindow: () => {
+    ipcRenderer.send("open-hifl");
+  },
+  openMahallahWindow: () => {
+    ipcRenderer.send("open-Mahallah");
+  }
 });
+

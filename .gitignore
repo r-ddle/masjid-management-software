@@ -90,3 +90,7 @@ electron-builder.yaml
 dist_electron/
 release/
 out/
+*.json
+
+# Environment variables
+.env

@@ -1,9 +1,21 @@
 const { contextBridge, ipcRenderer } = require("electron");
-const { findUser } = require("./db");
+const { findUser, fetchMembers } = require("./db");
 
 contextBridge.exposeInMainWorld("api", {
   login: async (username, password) => {
     return await findUser(username, password);
+  },
+  fetchMembers: async (location) => {
+    return await fetchMembers(location);
+  },
+  updateMemberStatus: async (memberId, month, status, location) => {
+    return await ipcRenderer.send(
+      "update-member-status",
+      memberId,
+      month,
+      status,
+      location
+    );
   },
   notifyLoginSuccess: () => {
     ipcRenderer.send("login-success");
@@ -16,6 +28,5 @@ contextBridge.exposeInMainWorld("api", {
   },
   openMahallahWindow: () => {
     ipcRenderer.send("open-Mahallah");
-  }
+  },
 });
-

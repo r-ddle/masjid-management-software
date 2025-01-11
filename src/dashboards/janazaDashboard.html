@@ -164,7 +164,8 @@
       </form>
     </dialog>
 
-    <!-- Add Member Modal -->
+    <div class="flex flex-col">
+      <!-- Add Member Modal -->
     <dialog id="memberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
       <div class="flex justify-between items-center">
         <h2 class="text-lg font-bold">Add New Member</h2>
@@ -191,7 +192,7 @@
         <button class="btn btn-error" onclick="showEditMemberModal(false)">Close</button>
       </div>
       <form id="editMemberForm" class="space-y-4">
-        <input type="hidden" id="editMemberId">
+        <input type="hidden" id="editMemberId" />
         <div class="form-control">
           <input type="text" id="editMemberName" placeholder="Full Name" class="input w-full" required />
         </div>
@@ -201,9 +202,13 @@
         <div class="form-control">
           <input type="text" id="editMemberAddress" placeholder="Address" class="input w-full" required />
         </div>
-        <button type="submit" class="btn btn-primary w-full">Update Member</button>
+        <div class="flex justify-between">
+          <button type="submit" class="btn btn-primary w-1/2">Update Member</button>
+          <button type="button" class="btn btn-error w-1/2" onclick="deleteMember()">Delete Member</button>
+        </div>
       </form>
     </dialog>
+    </div>
 
     <div class="overflow-x-auto">
       <table class="table">

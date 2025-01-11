@@ -1,5 +1,11 @@
 const { contextBridge, ipcRenderer } = require("electron");
-const { findUser, fetchMembers } = require("./db");
+const {
+  findUser,
+  fetchMembers,
+  updateMemberStatusInDb,
+  updateMember,
+  deleteMember,
+} = require("./db");
 
 contextBridge.exposeInMainWorld("api", {
   login: async (username, password) => {
@@ -8,15 +14,8 @@ contextBridge.exposeInMainWorld("api", {
   fetchMembers: async (location) => {
     return await fetchMembers(location);
   },
-  updateMemberStatus: async (memberId, month, status, location) => {
-    return await ipcRenderer.send(
-      "update-member-status",
-      memberId,
-      month,
-      status,
-      location
-    );
-  },
+  updateMemberStatusInDb: (memberId, month, status, location) =>
+    updateMemberStatusInDb(memberId, month, status, location),
   notifyLoginSuccess: () => {
     ipcRenderer.send("login-success");
   },
@@ -36,4 +35,8 @@ contextBridge.exposeInMainWorld("api", {
     return ipcRenderer.invoke("add-member", memberData);
   },
   updateMember: (memberData) => ipcRenderer.invoke("update-member", memberData),
+  deleteMember: (id) => {
+    console.log("Invoking deleteMember with ID:", id);
+    return ipcRenderer.invoke("delete-member", id);
+  },
 });

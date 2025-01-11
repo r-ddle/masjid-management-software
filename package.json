@@ -1,6 +1,6 @@
 {
   "name": "masjid-management-software",
-  "version": "3.5.3",
+  "version": "3.6.0",
   "description": "A management app made for masjid teachers and IT admins to manage members of the masjid",
   "main": "index.js",
   "scripts": {

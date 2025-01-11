@@ -1,6 +1,43 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
-const { updateMemberStatusInDb } = require("./src/db");
+const { updateMemberStatusInDb, createAdmin, addMember, updateMember } = require("./src/db");  // Add addMember and updateMember import
+
+// Move IPC handlers before app initialization
+ipcMain.handle("create-admin", async (event, username, password) => {
+  try {
+    const result = await createAdmin(username, password);
+    return result;
+  } catch (error) {
+    console.error("Error in create-admin handler:", error);
+    return { success: false, message: "Internal server error" };
+  }
+});
+
+// Fix the add-member IPC handler
+ipcMain.handle("add-member", async (event, memberData) => {
+  try {
+    if (!memberData || !memberData.location) {
+      throw new Error("Invalid member data");
+    }
+    const result = await addMember(memberData);
+    console.log("Add member result:", result); // Add logging
+    return result;
+  } catch (error) {
+    console.error("Error in add-member handler:", error);
+    return { success: false, message: error.message || "Internal server error" };
+  }
+});
+
+// Add this with other IPC handlers
+ipcMain.handle("update-member", async (event, memberData) => {
+  try {
+    const result = await updateMember(memberData);
+    return result;
+  } catch (error) {
+    console.error("Error in update-member handler:", error);
+    return { success: false, message: error.message || "Internal server error" };
+  }
+});
 
 function createWindow() {
   loginWindow = new BrowserWindow({
@@ -118,10 +155,6 @@ app.on("activate", () => {
 });
 
 // IPC communication
-const { ipcMain } = require("electron");
-const { setEngine } = require("crypto");
-const { create } = require("domain");
-
 ipcMain.on("login-success", () => {
   if (loginWindow) loginWindow.close();
   createSelectOptionWindow();
@@ -139,9 +172,9 @@ ipcMain.on("open-Mahallah", () => {
   if (selectOptionWindow) createMahalaDashboardWindow();
 });
 
-ipcMain.on("update-member-status", async (event, memberId, month, status) => {
+ipcMain.on("update-member-status", async (event, memberId, month, status, location) => {
   try {
-    await updateMemberStatusInDb(memberId, month, status);
+    await updateMemberStatusInDb(memberId, month, status, location);
     return { status: "success", success: true };
   } catch (error) {
     console.error("Error updating member status: ", error);

@@ -29,4 +29,11 @@ contextBridge.exposeInMainWorld("api", {
   openMahallahWindow: () => {
     ipcRenderer.send("open-Mahallah");
   },
+  createAdmin: (username, password) => {
+    return ipcRenderer.invoke("create-admin", username, password);
+  },
+  addMember: (memberData) => {
+    return ipcRenderer.invoke("add-member", memberData);
+  },
+  updateMember: (memberData) => ipcRenderer.invoke("update-member", memberData),
 });

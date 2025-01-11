@@ -111,6 +111,26 @@
           </button>
           <button onclick="loadLocation('Wasanawatte')" class="btn">
             Wasanawatte
+          </button><button onclick="loadLocation('Zone 2C Members')" class="btn">
+            2C Zone
+          </button></button><button onclick="loadLocation('Zone 3C Members')" class="btn">
+            3C Zone
+          </button></button><button onclick="loadLocation('Zone 4B Members')" class="btn">
+            4B Zone
+          </button></button><button onclick="loadLocation('Zone 5B Members')" class="btn">
+            5B Zone
+          </button></button><button onclick="loadLocation('Zone 6B Members')" class="btn">
+            6B Zone
+          </button></button><button onclick="loadLocation('Zone 7B Members')" class="btn">
+            7B Zone
+          </button></button><button onclick="loadLocation('Zone 8B Members')" class="btn">
+            8B Zone
+          </button></button></button><button onclick="loadLocation('Zone 9B Members')" class="btn">
+            9B Zone
+          </button></button></button><button onclick="loadLocation('Zone 10B Members')" class="btn">
+            10B Zone
+          </button></button></button><button onclick="loadLocation('Others Members')" class="btn">
+            Other Members
           </button>
         </div>
       </dialog>
@@ -122,11 +142,69 @@
         No Location Chosen
       </header>
       <div class="flex space-x-4">
-        <!-- Add extra buttons here -->
-        <button class="btn text-base">Add Admin</button>
-        <button class="btn text-base">Add Member</button>
+        <button class="btn text-base" onclick="showAdminModal(true)">Add Admin</button>
+        <button class="btn text-base" onclick="showMemberModal(true)">Add Member</button>
       </div>
     </div>
+
+    <!-- Add Admin Modal -->
+    <dialog id="adminModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold">Add New Admin</h2>
+        <button class="btn btn-error" onclick="showAdminModal(false)">Close</button>
+      </div>
+      <form id="addAdminForm" class="space-y-4">
+        <div class="form-control">
+          <input type="text" id="adminUsername" placeholder="Username" class="input w-full" required />
+        </div>
+        <div class="form-control">
+          <input type="password" id="adminPassword" placeholder="Password" class="input w-full" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Create Admin</button>
+      </form>
+    </dialog>
+
+    <!-- Add Member Modal -->
+    <dialog id="memberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold">Add New Member</h2>
+        <button class="btn btn-error" onclick="showMemberModal(false)">Close</button>
+      </div>
+      <form id="addMemberForm" class="space-y-4">
+        <div class="form-control">
+          <input type="text" id="memberName" placeholder="Full Name" class="input w-full" required />
+        </div>
+        <div class="form-control">
+          <input type="tel" id="memberPhone" placeholder="Telephone Number" class="input w-full" required />
+        </div>
+        <div class="form-control">
+          <input type="text" id="memberAddress" placeholder="Address" class="input w-full" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Add Member</button>
+      </form>
+    </dialog>
+
+    <!-- Edit Member Modal -->
+    <dialog id="editMemberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold">Edit Member</h2>
+        <button class="btn btn-error" onclick="showEditMemberModal(false)">Close</button>
+      </div>
+      <form id="editMemberForm" class="space-y-4">
+        <input type="hidden" id="editMemberId">
+        <div class="form-control">
+          <input type="text" id="editMemberName" placeholder="Full Name" class="input w-full" required />
+        </div>
+        <div class="form-control">
+          <input type="tel" id="editMemberPhone" placeholder="Telephone Number" class="input w-full" required />
+        </div>
+        <div class="form-control">
+          <input type="text" id="editMemberAddress" placeholder="Address" class="input w-full" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Update Member</button>
+      </form>
+    </dialog>
+
     <div class="overflow-x-auto">
       <table class="table">
         <!-- mapping member details from database from JS -->

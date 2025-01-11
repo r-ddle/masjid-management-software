@@ -2,11 +2,18 @@
   "name": "masjid-management-software",
   "version": "4.0.0",
   "description": "A management app made for masjid teachers and IT admins to manage members of the masjid",
+  "build": {
+    "appId": "com.flyxdevs.masjidapp",
+    "mac": {
+      "category": "public.app-category.productivity"
+    }
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dev": "nodemon --exec electron ."
+    "dev": "nodemon --exec electron .",
+    "package": "electron-packager . masjid-management-software --platform=win32 --arch=x64 --icon=src/assets/logo.ico --out=build --overwrite"
   },
   "repository": {
     "type": "git",
@@ -21,6 +28,8 @@
   "devDependencies": {
     "daisyui": "^4.12.23",
     "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-packager": "^17.1.2",
     "nodemon": "^3.1.9",
     "tailwindcss": "^3.4.17"
   },

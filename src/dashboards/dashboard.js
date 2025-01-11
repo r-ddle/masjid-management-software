@@ -378,6 +378,15 @@ function closeEditMemberModal() {
   document.getElementById("edit_member_modal").close();
 }
 
+function showToast(message, type = "success") {
+  const toast = document.createElement("div");
+  toast.className = `alert alert-${type} fixed top-4 w-1/2 left-1/2 transform -translate-x-1/2 max-w-xs`;
+
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
 async function updateMember() {
   const id = document.getElementById("edit_member_id").value;
   const name = document.getElementById("edit_member_name").value;
@@ -395,27 +404,16 @@ async function updateMember() {
     closeEditMemberModal();
     await loadLocation(selectedLocation);
 
-    const toast = document.createElement("div");
-    toast.className =
-      "alert alert-success fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2";
-    toast.textContent = "Member updated successfully!";
-    document.body.appendChild(toast);
+    showToast("Member updated successfully!", "success");
     setTimeout(() => toast.remove(), 3000);
   } else {
     throw new Error(result?.message || "Failed to update member");
   }
 }
 
-function showToast(message, type = "success") {
-  const toast = document.createElement("div");
-  toast.className = `alert alert-${type} fixed top-4 left-1/2 transform -translate-x-1/2 max-w-sm`;
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
-}
-
 async function deleteMember() {
   const id = document.getElementById("editMemberId").value;
+
   if (!id) {
     console.error("No member ID found");
     showToast("No member ID found", "error");
@@ -429,7 +427,7 @@ async function deleteMember() {
     if (result.success) {
       console.log("Member deleted:", result);
       closeEditMemberModal();
-      await loadLocation(selectedLocation);
+      window.location.reload(); // Refresh the entire page
       showToast("Member deleted successfully!", "success");
     } else {
       throw new Error(result.message || "Failed to delete member");

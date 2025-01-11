@@ -223,22 +223,34 @@ async function updateMember(memberData) {
 }
 
 async function deleteMember(id) {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new Error("Invalid member ID");
-  }
-
   try {
-    const result = await Member.findByIdAndDelete(id);
-    if (result) {
-      return { success: true, message: "Member deleted successfully" };
-    } else {
-      return { success: false, message: "Member not found" };
+    if (!id) {
+      throw new Error("Invalid member ID");
     }
+
+    const db = await connectToDB();
+    const collections = await db.listCollections().toArray();
+    let deletedMember = null;
+
+    for (const collectionInfo of collections) {
+      const collection = db.collection(collectionInfo.name);
+      const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+      if (result.deletedCount === 1) {
+        deletedMember = {
+          success: true,
+          message: "Member deleted successfully",
+        };
+        break;
+      }
+    }
+
+    return deletedMember || { success: false, message: "Member not found" };
   } catch (error) {
-    console.error("Error deleting member:", error);
+    console.error("Error in deleteMember function:", error);
     return {
       success: false,
-      message: `Error deleting member: ${error.message}`,
+      message: error.message || "Internal server error",
     };
   }
 }

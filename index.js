@@ -198,14 +198,5 @@ ipcMain.on(
 );
 
 ipcMain.handle("delete-member", async (event, id) => {
-  if (!id) {
-    throw new Error("No member ID provided");
-  }
-  try {
-    const result = await deleteMember(id);
-    return result;
-  } catch (error) {
-    console.error("Error in delete-member handler:", error);
-    return { success: false, message: error.message };
-  }
+  return await deleteMember(id);
 });

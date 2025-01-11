@@ -182,41 +182,6 @@ async function handleMonthButtonClick(button, JanazaData, month, location) {
 }
 
 // Add after existing initialization code
-document
-  .getElementById("addAdminForm")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const username = document.getElementById("adminUsername").value;
-    const password = document.getElementById("adminPassword").value;
-
-    try {
-      if (!window.api?.createAdmin) {
-        throw new Error("Admin creation functionality not available");
-      }
-
-      const result = await window.api.createAdmin(username, password);
-      if (result.success) {
-        showAdminModal(false);
-        event.target.reset();
-        const toast = document.createElement("div");
-        toast.className = "alert alert-success fixed bottom-4 right-4";
-        toast.textContent = "Admin created successfully!";
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-      } else {
-        throw new Error(result.message || "Failed to create admin");
-      }
-    } catch (error) {
-      console.error("Error creating admin:", error);
-      const toast = document.createElement("div");
-      toast.className = "alert alert-error fixed bottom-4 right-4";
-      toast.textContent =
-        error.message || "Error creating admin. Please try again.";
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
-  });
 
 // Add after existing form handlers
 document

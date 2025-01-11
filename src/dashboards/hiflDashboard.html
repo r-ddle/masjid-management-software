@@ -22,7 +22,9 @@
       </header>
       <div class="flex space-x-4">
         <!-- Add extra buttons here -->
-        <button class="btn text-base" onclick="showMemberModal(true)">Add Member</button>
+        <button class="btn text-base" onclick="showMemberModal(true)">
+          Add Member
+        </button>
       </div>
     </div>
     <div class="overflow-x-auto">
@@ -30,10 +32,11 @@
         <!-- mapping member details from database from JS -->
         <thead class="text-base">
           <tr>
-            <th class="w-1/4">Name</th>
-            <th class="w-1/4">Address</th>
-            <th class="w-2/4">Payment Status</th>
-            <th class="w-1/4">Actions</th>
+            <th class="w-1/5">Name</th>
+            <th class="w-1/5">Address</th>
+            <th class="w-1/5">Telephone</th>
+            <th class="w-2/5">Payment Status</th>
+            <th class="w-1/5">Actions</th>
           </tr>
         </thead>
         <tbody id="hiflTableBody" class="text-base font-bold">
@@ -42,22 +45,72 @@
       </table>
     </div>
 
-    <!-- Add Member Modal -->
-    <dialog id="memberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg font-bold">Add New Student</h2>
-        <button class="btn btn-error" onclick="showMemberModal(false)">Close</button>
+    <div class="flex flex-col">
+      <!-- Add Member Modal -->
+      <dialog id="memberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
+        <div class="flex justify-between items-center">
+          <h2 class="text-lg font-bold">Add New Member</h2>
+          <button class="btn btn-error" onclick="showMemberModal(false)">
+            Close
+          </button>
+        </div>
+        <form id="addMemberForm" class="space-y-4">
+          <div class="form-control">
+            <input
+              type="text"
+              id="memberName"
+              placeholder="Full Name"
+              class="input w-full"
+              required
+            />
+          </div>
+          <div class="form-control">
+            <input
+              type="tel"
+              id="memberPhone"
+              placeholder="Telephone Number"
+              class="input w-full"
+              required
+            />
+          </div>
+          <div class="form-control">
+            <input
+              type="text"
+              id="memberAddress"
+              placeholder="Address"
+              class="input w-full"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary w-full">
+            Add Member
+          </button>
+        </form>
+      </dialog>
+      <dialog id="editMemberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
+        <div class="flex justify-between items-center">
+          <h2 class="text-lg font-bold"onclick="openEditMemberModal()">Edit Member</h2>
+          <button class="btn btn-error" onclick="closeEditMemberModal()">Close</button>
+        </div>
+        <form id="editMemberForm" class="space-y-4">
+          <input type="hidden" id="editMemberId" />
+          <div class="form-control">
+            <input type="text" id="editMemberName" placeholder="Full Name" class="input w-full" required />
+          </div>
+          <div class="form-control">
+            <input type="tel" id="editMemberPhone" placeholder="Telephone Number" class="input w-full" required />
+          </div>
+          <div class="form-control">
+            <input type="text" id="editMemberAddress" placeholder="Address" class="input w-full" required />
+          </div>
+          <div class="flex justify-between">
+            <button type="submit" class="btn btn-primary w-1/2">Update Member</button>
+            <button type="button" class="btn btn-error w-1/2" onclick="deleteMember()">Delete Member</button>
+          </div>
+        </form>
+      </dialog>
       </div>
-      <form id="addMemberForm" class="space-y-4">
-        <div class="form-control">
-          <input type="text" id="memberName" placeholder="Full Name" class="input w-full" required />
-        </div>
-        <div class="form-control">
-          <input type="text" id="memberAddress" placeholder="Address" class="input w-full" required />
-        </div>
-        <button type="submit" class="btn btn-primary w-full">Add Student</button>
-      </form>
-    </dialog>
+    </div>
   </body>
   <script src="./hiflDashboard.js"></script>
 </html>

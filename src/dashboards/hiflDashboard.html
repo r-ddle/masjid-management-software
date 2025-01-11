@@ -17,13 +17,12 @@
     <div
       class="flex justify-between items-center p-4 shadow-md rounded-lg m-2 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100"
     >
-      
       <header class="text-2xl font-bold text-center flex-grow">
         Hifl Madrasa Student Details and Payment
       </header>
       <div class="flex space-x-4">
         <!-- Add extra buttons here -->
-        <button class="btn text-base">Add Member</button>
+        <button class="btn text-base" onclick="showMemberModal(true)">Add Member</button>
       </div>
     </div>
     <div class="overflow-x-auto">
@@ -37,30 +36,28 @@
             <th class="w-1/4">Actions</th>
           </tr>
         </thead>
-        <tbody class="text-base font-bold">
-          <tr>
-            <td>Dexter Morgan</td>
-            <td>God Knows where that nigga lives maybe in LA</td>
-            <td>
-              <button class="btn">Jan</button>
-              <button class="btn btn-error">Feb</button>
-              <button class="btn">Mar</button>
-              <button class="btn">Apr</button>
-              <button class="btn">May</button>
-              <button class="btn">Jun</button>
-              <button class="btn">July</button>
-              <button class="btn">Aug</button>
-              <button class="btn">Sep</button>
-              <button class="btn">Oct</button>
-              <button class="btn">Nov</button>
-              <button class="btn">Dec</button>
-            </td>
-            <td>
-              <button class="btn">Edit</button>
-            </td>
-          </tr>
+        <tbody id="hiflTableBody" class="text-base font-bold">
+          <!-- Table content will be populated dynamically -->
         </tbody>
       </table>
     </div>
+
+    <!-- Add Member Modal -->
+    <dialog id="memberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold">Add New Student</h2>
+        <button class="btn btn-error" onclick="showMemberModal(false)">Close</button>
+      </div>
+      <form id="addMemberForm" class="space-y-4">
+        <div class="form-control">
+          <input type="text" id="memberName" placeholder="Full Name" class="input w-full" required />
+        </div>
+        <div class="form-control">
+          <input type="text" id="memberAddress" placeholder="Address" class="input w-full" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Add Student</button>
+      </form>
+    </dialog>
   </body>
+  <script src="./hiflDashboard.js"></script>
 </html>

@@ -13,25 +13,29 @@
     />
   </head>
   <body class="font-grotesk">
-    <div class="flex justify-between items-center p-4 shadow-md rounded-lg m-2 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
+    <div
+      class="flex justify-between items-center p-4 shadow-md rounded-lg m-2 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100"
+    >
       <!-- Add Select Location Button -->
-      <button class="btn text-base" onclick="showLocationModal(true)">
-        Select a Location
-      </button>
 
-      <header id="locationHeader" class="text-2xl font-bold text-center flex-grow">
-        No Location Selected
+      <header
+        id="locationHeader"
+        class="text-2xl font-bold text-center flex-grow"
+      >
+        Mahalla Members
       </header>
       <div class="flex space-x-4 items-center">
         <div class="form-control">
-          <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="Search members..." 
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search members..."
             class="input input-bordered w-64"
           />
         </div>
-        <button class="btn text-base" onclick="showMemberModal(true)">Add Member</button>
+        <button class="btn text-base" onclick="showMemberModal(true)">
+          Add Member
+        </button>
       </div>
     </div>
     <div class="overflow-x-auto">
@@ -55,171 +59,104 @@
       </table>
     </div>
 
-    <!-- Add Member Modal -->
-    <dialog id="memberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg font-bold">Add New Mahallah Member</h2>
-        <button class="btn btn-error" onclick="showMemberModal(false)">Close</button>
-      </div>
-      <form id="addMemberForm" class="space-y-4">
-        <div class="form-control">
-          <input 
-            type="text" 
-            id="memberName" 
-            placeholder="Full Name" 
-            class="input input-bordered w-full" 
-            required 
-          />
+    <div class="flex flex-col">
+      <!-- Add Member Modal -->
+      <dialog id="memberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
+        <div class="flex justify-between items-center">
+          <h2 class="text-lg font-bold">Add New Member</h2>
+          <button class="btn btn-error" onclick="showMemberModal(false)">
+            Close
+          </button>
         </div>
-        <div class="form-control">
-          <input 
-            type="text" 
-            id="memberAddress" 
-            placeholder="Address" 
-            class="input input-bordered w-full" 
-            required 
-          />
-        </div>
-        <div class="form-control">
-          <input 
-            type="tel" 
-            id="memberPhone" 
-            placeholder="Telephone Number" 
-            class="input input-bordered w-full" 
-            required 
-          />
-        </div>
-        <button type="submit" class="btn btn-primary w-full">Add Member</button>
-      </form>
-    </dialog>
+        <form id="addMemberForm" class="space-y-4">
+          <div class="form-control">
+            <input
+              type="text"
+              id="memberName"
+              placeholder="Full Name"
+              class="input w-full"
+              required
+            />
+          </div>
+          <div class="form-control">
+            <input
+              type="tel"
+              id="memberPhone"
+              placeholder="Telephone Number"
+              class="input w-full"
+              required
+            />
+          </div>
+          <div class="form-control">
+            <input
+              type="text"
+              id="memberAddress"
+              placeholder="Address"
+              class="input w-full"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary w-full">
+            Add Member
+          </button>
+        </form>
+      </dialog>
 
-    <!-- Edit Member Modal -->
-    <dialog id="editMemberModal" class="rounded-lg shadow-lg p-6 w-96 space-y-4">
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg font-bold">Edit Member</h2>
-        <button class="btn btn-error" onclick="showEditMemberModal(false)">Close</button>
-      </div>
-      <form id="editMemberForm" class="space-y-4">
-        <input type="hidden" id="editMemberId" />
-        <div class="form-control">
-          <input type="text" id="editMemberName" placeholder="Full Name" class="input w-full" required />
+      <!-- Edit Member Modal -->
+      <dialog
+        id="editMemberModal"
+        class="rounded-lg shadow-lg p-6 w-96 space-y-4"
+      >
+        <div class="flex justify-between items-center">
+          <h2 class="text-lg font-bold">Edit Member</h2>
+          <button class="btn btn-error" onclick="showEditMemberModal(false)">
+            Close
+          </button>
         </div>
-        <div class="form-control">
-          <input type="text" id="editMemberAddress" placeholder="Address" class="input w-full" required />
-        </div>
-        <div class="form-control">
-          <input type="tel" id="editMemberPhone" placeholder="Telephone" class="input w-full" required />
-        </div>
-        <button type="submit" class="btn btn-primary w-full">Update Member</button>
-      </form>
-    </dialog>
-
-    <!-- Add Location Modal -->
-    <dialog id="locationModal" class="rounded-lg shadow-lg p-6 w-full max-w-xl h-fit space-y-4">
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg font-bold">Select a Location</h2>
-        <button class="btn btn-error" onclick="showLocationModal(false)">Close</button>
-      </div>
-      <div class="grid grid-cols-3 gap-4 font-bold text-lg">
-        <!-- Same location buttons as janazaDashboard.html -->
-        <button onclick="loadLocation('Araliya Uyana')" class="btn">Araliya Uyana</button> <button onclick="loadLocation('Asiri Uyana')" class="btn">
-          Asiri Uyana
-        </button>
-        <button onclick="loadLocation('Bandaranayakapura')" class="btn">
-          Bandaranayakapura
-        </button>
-        <button onclick="loadLocation('Bangalawatte')" class="btn">
-          Bangalawatte
-        </button>
-        <button onclick="loadLocation('Bogahawila')" class="btn">
-          Bogahawila
-        </button>
-        <button onclick="loadLocation('Dickhenawatte')" class="btn">
-          Dickhenawatte
-        </button>
-        <button onclick="loadLocation('GetubaDuwa')" class="btn">
-          GetubaDuwa
-        </button>
-        <button onclick="loadLocation('Golden Medows')" class="btn">
-          Golden Medows
-        </button>
-        <button onclick="loadLocation('Green Vally')" class="btn">
-          Green Vally
-        </button>
-        <button onclick="loadLocation('Homagama')" class="btn">
-          Homagama
-        </button>
-        <button onclick="loadLocation('KahaThuduwa')" class="btn">
-          KahaThuduwa
-        </button>
-        <button onclick="loadLocation('Kirigampamuwuna')" class="btn">
-          Kirigampamuwuna
-        </button>
-        <button onclick="loadLocation('Kiriwaththuduwa')" class="btn">
-          Kiriwaththuduwa
-        </button>
-        <button onclick="loadLocation('Madara Uyana')" class="btn">
-          Madara Uyana
-        </button>
-        <button onclick="loadLocation('Makumbura Kottawa')" class="btn">
-          Makumbura Kottawa
-        </button>
-        <button onclick="loadLocation('Melwatte Siyabalgoda')" class="btn">
-          Melwatte Siyabalgoda
-        </button>
-        <button onclick="loadLocation('Nadun Uyana')" class="btn">
-          Nadun Uyana
-        </button>
-        <button onclick="loadLocation('Pelanwatte')" class="btn">
-          Pelanwatte
-        </button>
-        <button onclick="loadLocation('Pink Row')" class="btn">
-          Pink Row
-        </button>
-        <button onclick="loadLocation('Polgasowita Road')" class="btn">
-          Polgasowita Road
-        </button>
-        <button onclick="loadLocation('Prasanna Uyana')" class="btn">
-          Prasanna Uyana
-        </button>
-        <button onclick="loadLocation('Sadunpura')" class="btn">
-          Sadunpura
-        </button>
-        <button onclick="loadLocation('Salgas Mawatha')" class="btn">
-          Salgas Mawatha
-        </button>
-        <button onclick="loadLocation('Samanala Place')" class="btn">
-          Samanala Place
-        </button>
-        <button onclick="loadLocation('Siddamulla')" class="btn">
-          Siddamulla
-        </button>
-        <button onclick="loadLocation('Wasanawatte')" class="btn">
-          Wasanawatte
-        </button><button onclick="loadLocation('Zone 2C Members')" class="btn">
-          2C Zone
-        </button></button><button onclick="loadLocation('Zone 3C Members')" class="btn">
-          3C Zone
-        </button></button><button onclick="loadLocation('Zone 4B Members')" class="btn">
-          4B Zone
-        </button></button><button onclick="loadLocation('Zone 5B Members')" class="btn">
-          5B Zone
-        </button></button><button onclick="loadLocation('Zone 6B Members')" class="btn">
-          6B Zone
-        </button></button><button onclick="loadLocation('Zone 7B Members')" class="btn">
-          7B Zone
-        </button></button><button onclick="loadLocation('Zone 8B Members')" class="btn">
-          8B Zone
-        </button></button></button><button onclick="loadLocation('Zone 9B Members')" class="btn">
-          9B Zone
-        </button></button></button><button onclick="loadLocation('Zone 10B Members')" class="btn">
-          10B Zone
-        </button></button></button><button onclick="loadLocation('Others Members')" class="btn">
-          Other Members
-        </button>
-        <!-- ...Add all other location buttons... -->
-      </div>
-    </dialog>
+        <form id="editMemberForm" class="space-y-4">
+          <input type="hidden" id="editMemberId" />
+          <div class="form-control">
+            <input
+              type="text"
+              id="editMemberName"
+              placeholder="Full Name"
+              class="input w-full"
+              required
+            />
+          </div>
+          <div class="form-control">
+            <input
+              type="tel"
+              id="editMemberPhone"
+              placeholder="Telephone Number"
+              class="input w-full"
+              required
+            />
+          </div>
+          <div class="form-control">
+            <input
+              type="text"
+              id="editMemberAddress"
+              placeholder="Address"
+              class="input w-full"
+              required
+            />
+          </div>
+          <div class="flex justify-between">
+            <button type="submit" class="btn btn-primary w-1/2">
+              Update Member
+            </button>
+            <button
+              type="button"
+              class="btn btn-error w-1/2"
+              onclick="deleteMember()"
+            >
+              Delete Member
+            </button>
+          </div>
+        </form>
+      </dialog>
+    </div>
   </body>
   <script src="./mahallahDashboard.js"></script>
 </html>

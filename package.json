@@ -1,12 +1,39 @@
 {
   "name": "masjid-management-software",
-  "version": "3.6.0",
+  "version": "4.0.3",
   "description": "A management app made for masjid teachers and IT admins to manage members of the masjid",
+  "build": {
+    "appId": "com.masjid-management-software",
+    "productName": "Masjid Management Software",
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": true
+    },
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "**/*",
+      "!.env"
+    ],
+    "extraResources": [
+      {
+        "from": ".env",
+        "to": ".env"
+      }
+    ]
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dev": "nodemon --exec electron ."
+    "dev": "nodemon --exec electron .",
+    "dist": "electron-builder",
+    "package": "electron-packager . masjid-management-software --platform=win32 --arch=x64 --icon=src/assets/logo.ico --out=build --overwrite"
   },
   "repository": {
     "type": "git",
@@ -21,6 +48,8 @@
   "devDependencies": {
     "daisyui": "^4.12.23",
     "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-packager": "^17.1.2",
     "nodemon": "^3.1.9",
     "tailwindcss": "^3.4.17"
   },

@@ -1,6 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
-const { updateMemberStatusInDb, createAdmin, addMember, updateMember } = require("./src/db");  // Add addMember and updateMember import
+const {
+  updateMemberStatusInDb,
+  createAdmin,
+  addMember,
+  updateMember,
+  deleteMember,
+} = require("./src/db"); // Add addMember and updateMember import
 
 // Move IPC handlers before app initialization
 ipcMain.handle("create-admin", async (event, username, password) => {
@@ -24,7 +30,10 @@ ipcMain.handle("add-member", async (event, memberData) => {
     return result;
   } catch (error) {
     console.error("Error in add-member handler:", error);
-    return { success: false, message: error.message || "Internal server error" };
+    return {
+      success: false,
+      message: error.message || "Internal server error",
+    };
   }
 });
 
@@ -35,7 +44,22 @@ ipcMain.handle("update-member", async (event, memberData) => {
     return result;
   } catch (error) {
     console.error("Error in update-member handler:", error);
-    return { success: false, message: error.message || "Internal server error" };
+    return {
+      success: false,
+      message: error.message || "Internal server error",
+    };
+  }
+});
+
+// Replace the existing update-member-status handler with this one
+ipcMain.handle("update-member-status", async (event, memberId, month, status, location) => {
+  try {
+    console.log("Handling update-member-status:", { memberId, month, status, location });
+    const result = await updateMemberStatusInDb(memberId, month, status, location);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Error in update-member-status handler:", error);
+    return { success: false, error: error.message };
   }
 });
 
@@ -172,12 +196,6 @@ ipcMain.on("open-Mahallah", () => {
   if (selectOptionWindow) createMahalaDashboardWindow();
 });
 
-ipcMain.on("update-member-status", async (event, memberId, month, status, location) => {
-  try {
-    await updateMemberStatusInDb(memberId, month, status, location);
-    return { status: "success", success: true };
-  } catch (error) {
-    console.error("Error updating member status: ", error);
-    return { status: "error", success: false };
-  }
+ipcMain.handle("delete-member", async (event, id) => {
+  return await deleteMember(id);
 });

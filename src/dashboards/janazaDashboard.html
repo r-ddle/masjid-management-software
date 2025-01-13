@@ -180,8 +180,67 @@
         <div class="form-control">
           <input type="text" id="memberAddress" placeholder="Address" class="input w-full" required />
         </div>
-        <button type="submit" class="btn btn-primary w-full">Add Member</button>
+        <div class="flex gap-2">
+          <button type="button" id="selectLocationBtn" onclick="showLocationModal(true)" class="btn btn-info w-1/2">Select Location</button>
+          <button type="submit" class="btn btn-primary w-1/2">Add Member</button>
+        </div>
       </form>
+    </dialog>
+
+    <!-- Location Selection Modal for Member -->
+    <dialog id="locationModalForMember" class="rounded-lg shadow-lg p-6 w-full max-w-xl h-fit space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-bold">Select a Location</h2>
+        <button class="btn btn-error" onclick="showLocationModalForMember(false)">Close</button>
+      </div>
+      <div class="grid grid-cols-3 gap-4 font-bold text-lg">
+        <button onclick="selectLocationForMember('Araliya Uyana')" class="btn">Araliya Uyana</button>
+        <button onclick="selectLocationForMember('Asiri Uyana')" class="btn">Asiri Uyana</button>
+        <button onclick="selectLocationForMember('Bandaranayakapura')" class="btn">Bandaranayakapura</button>
+        <button onclick="selectLocationForMember('Bangalawatte')" class="btn">Bangalawatte</button>
+        <button onclick="selectLocationForMember('Bogahawila')" class="btn">Bogahawila</button>
+        <button onclick="selectLocationForMember('Dickhenawatte')" class="btn">Dickhenawatte</button>
+        <button onclick="selectLocationForMember('GetubaDuwa')" class="btn">GetubaDuwa</button>
+        <button onclick="selectLocationForMember('Golden Medows')" class="btn">Golden Medows</button>
+        <button onclick="selectLocationForMember('Green Vally')" class="btn">Green Vally</button>
+        <button onclick="selectLocationForMember('Homagama')" class="btn">Homagama</button>
+        <button onclick="selectLocationForMember('KahaThuduwa')" class="btn">KahaThuduwa</button>
+        <button onclick="selectLocationForMember('Kirigampamuwuna')" class="btn">Kirigampamuwuna</button>
+        <button onclick="selectLocationForMember('Kiriwaththuduwa')" class="btn">Kiriwaththuduwa</button>
+        <button onclick="selectLocationForMember('Madara Uyana')" class="btn">Madara Uyana</button>
+        <button onclick="selectLocationForMember('Makumbura Kottawa')" class="btn">Makumbura Kottawa</button>
+        <button onclick="selectLocationForMember('Melwatte Siyabalgoda')" class="btn">Melwatte Siyabalgoda</button>
+        <button onclick="selectLocationForMember('Nadun Uyana')" class="btn">Nadun Uyana</button>
+        <button onclick="selectLocationForMember('Pelanwatte')" class="btn">Pelanwatte</button>
+        <button onclick="selectLocationForMember('Pink Row')" class="btn">Pink Row</button>
+        <button onclick="selectLocationForMember('Polgasowita Road')" class="btn">Polgasowita Road</button>
+        <button onclick="selectLocationForMember('Prasanna Uyana')" class="btn">Prasanna Uyana</button>
+        <button onclick="selectLocationForMember('Sadunpura')" class="btn">Sadunpura</button>
+        <button onclick="selectLocationForMember('Salgas Mawatha')" class="btn">Salgas Mawatha</button>
+        <button onclick="selectLocationForMember('Samanala Place')" class="btn">Samanala Place</button>
+        <button onclick="selectLocationForMember('Siddamulla')" class="btn">Siddamulla</button>
+        <button onclick="selectLocationForMember('Wasanawatte')" class="btn">Wasanawatte</button><button onclick="selectLocationForMember('Zone 2C Members')" class="btn">
+            2C Zone
+          </button></button><button onclick="selectLocationForMember('Zone 3C Members')" class="btn">
+            3C Zone
+          </button></button><button onclick="selectLocationForMember('Zone 4B Members')" class="btn">
+            4B Zone
+          </button></button><button onclick="selectLocationForMember('Zone 5B Members')" class="btn">
+            5B Zone
+          </button></button><button onclick="selectLocationForMember('Zone 6B Members')" class="btn">
+            6B Zone
+          </button></button><button onclick="selectLocationForMember('Zone 7B Members')" class="btn">
+            7B Zone
+          </button></button><button onclick="selectLocationForMember('Zone 8B Members')" class="btn">
+            8B Zone
+          </button></button></button><button onclick="selectLocationForMember('Zone 9B Members')" class="btn">
+            9B Zone
+          </button></button></button><button onclick="selectLocationForMember('Zone 10B Members')" class="btn">
+            10B Zone
+          </button></button></button><button onclick="selectLocationForMember('Others Members')" class="btn">
+            Other Members
+          </button>
+      </div>
     </dialog>
 
     <!-- Edit Member Modal -->
@@ -223,9 +282,8 @@
         </thead>
         <tbody id="janazaTableBody" class="text-base font-bold">
           <tr>
-            <td id="monthStatus"></td>
-            <td>
-              <!-- <button class="btn btn-success hidden">Edit</button> -->
+            <td colspan="5" class="text-center text-lg">
+              Select a Location
             </td>
           </tr>
         </tbody>

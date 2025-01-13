@@ -51,6 +51,18 @@ ipcMain.handle("update-member", async (event, memberData) => {
   }
 });
 
+// Replace the existing update-member-status handler with this one
+ipcMain.handle("update-member-status", async (event, memberId, month, status, location) => {
+  try {
+    console.log("Handling update-member-status:", { memberId, month, status, location });
+    const result = await updateMemberStatusInDb(memberId, month, status, location);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("Error in update-member-status handler:", error);
+    return { success: false, error: error.message };
+  }
+});
+
 function createWindow() {
   loginWindow = new BrowserWindow({
     height: 500,
@@ -183,19 +195,6 @@ ipcMain.on("open-hifl", () => {
 ipcMain.on("open-Mahallah", () => {
   if (selectOptionWindow) createMahalaDashboardWindow();
 });
-
-ipcMain.on(
-  "update-member-status",
-  async (event, memberId, month, status, location) => {
-    try {
-      await updateMemberStatusInDb(memberId, month, status, location);
-      return { status: "success", success: true };
-    } catch (error) {
-      console.error("Error updating member status: ", error);
-      return { status: "error", success: false };
-    }
-  }
-);
 
 ipcMain.handle("delete-member", async (event, id) => {
   return await deleteMember(id);

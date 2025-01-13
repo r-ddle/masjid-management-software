@@ -76,9 +76,7 @@ function renderMahallaTable(data) {
       const status = member.mahalla_2024?.[month] || "Not Paid";
       btn.classList.add(status === "Paid" ? "btn-success" : "btn-error");
 
-      btn.addEventListener("click", () =>
-        handlePaymentClick(btn, member, month)
-      );
+      btn.addEventListener("click", () => handlePaymentClick(btn, member, month));
       paymentTd.appendChild(btn);
     });
     row.appendChild(paymentTd);
@@ -96,24 +94,57 @@ function renderMahallaTable(data) {
   });
 }
 
+let lastClickTime = 0;
+const COOLDOWN_PERIOD = 2000; // 2 seconds cooldown
+
 async function handlePaymentClick(button, member, month) {
+  // Implement cooldown to prevent rapid clicks
+  const currentTime = Date.now();
+  if (currentTime - lastClickTime < COOLDOWN_PERIOD) {
+    console.log("Cooldown period active. Please wait.");
+    return;
+  }
+  lastClickTime = currentTime;
+
   button.classList.remove("btn-error", "btn-success");
-  button.textContent = "Loading...";
+  button.innerHTML = `<span class="loading loading-spinner"></span>`;
 
   try {
-    await window.api.updateMemberStatus(
-      member._id,
+    const currentStatus = member.mahalla_2024?.[month.toLowerCase()] || "Not Paid";
+    const updatedStatus = currentStatus === "Paid" ? "Not Paid" : "Paid";
+    const memberId = member._id;
+
+    console.log("Making updateMemberStatus call:", {
+      memberId,
       month,
-      "Paid",
+      updatedStatus,
+      selectedLocation
+    });
+
+    const result = await window.api.updateMemberStatus(
+      memberId,
+      month,
+      updatedStatus,
       selectedLocation
     );
-    button.classList.add("btn-success");
+
+    if (!result.success) {
+      throw new Error(result.error || "Failed to update status");
+    }
+
+    button.classList.add(updatedStatus === "Paid" ? "btn-success" : "btn-error");
+    button.textContent = month.charAt(0).toUpperCase() + month.slice(1);
+
+    // Refresh data
+    const updatedData = await window.api.fetchMembers(selectedLocation);
+    mahallaData = updatedData;
+    renderMahallaTable(updatedData);
+
   } catch (error) {
     console.error("Error updating payment status:", error);
     button.classList.add("btn-error");
-    showErrorToast("Failed to update payment status");
-  } finally {
     button.textContent = month.charAt(0).toUpperCase() + month.slice(1);
+    showErrorToast(`Failed to update payment status: ${error.message}`);
   }
 }
 

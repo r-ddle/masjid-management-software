@@ -23,10 +23,29 @@ function showAdminModal(show) {
 function showMemberModal(show) {
   const memberModal = document.getElementById("memberModal");
   if (show) {
+    const selectLocationBtn = document.getElementById("selectLocationBtn");
+    selectLocationBtn.textContent = "Select Location";
+    selectLocationBtn.classList.remove("btn-success");
+    selectLocationBtn.classList.add("btn-info");
     memberModal.showModal();
   } else {
     memberModal.close();
   }
+}
+
+function showLocationModalForMember(show) {
+  const locationModal = document.getElementById("locationModalForMember");
+  if (show) {
+    locationModal.showModal();
+  } else {
+    locationModal.close();
+  }
+}
+
+function selectLocationForMember(location) {
+  selectedLocation = location;
+  showLocationModalForMember(false);
+  showToast(`Selected location: ${location}`, 'success');
 }
 
 let JanazaData = [];
@@ -39,6 +58,15 @@ async function loadLocation(location) {
     console.log(data);
     updateJanazaData(data, location);
     renderJanazaTable(data);
+    
+    // Update the Select Location button text if member modal is open
+    const memberModal = document.getElementById("memberModal");
+    if (memberModal.open) {
+      const selectLocationBtn = document.getElementById("selectLocationBtn");
+      selectLocationBtn.textContent = location;
+      selectLocationBtn.classList.remove("btn-info");
+      selectLocationBtn.classList.add("btn-success");
+    }
   } catch (error) {
     console.error(error);
   }
@@ -418,7 +446,6 @@ async function deleteMember() {
   const id = document.getElementById("editMemberId").value;
   if (!id) {
     console.error("No member ID found");
-    showToast("No member ID found", "error");
     return;
   }
 
@@ -429,7 +456,7 @@ async function deleteMember() {
     if (result.success) {
       console.log("Member deleted:", result);
       closeEditMemberModal();
-      await loadLocation(selectedLocation);
+      window.location.reload();
       showToast("Member deleted successfully!", "success");
     } else {
       throw new Error(result.message || "Failed to delete member");

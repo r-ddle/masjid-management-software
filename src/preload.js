@@ -14,8 +14,10 @@ contextBridge.exposeInMainWorld("api", {
   fetchMembers: async (location) => {
     return await fetchMembers(location);
   },
-  updateMemberStatusInDb: (memberId, month, status, location) =>
-    updateMemberStatusInDb(memberId, month, status, location),
+  updateMemberStatus: async (memberId, month, status, location) => {
+    console.log("Invoking updateMemberStatus:", { memberId, month, status, location });
+    return await ipcRenderer.invoke("update-member-status", memberId, month, status, location);
+  },
   notifyLoginSuccess: () => {
     ipcRenderer.send("login-success");
   },

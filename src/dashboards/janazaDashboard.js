@@ -5,6 +5,10 @@ function showLocationModal(show) {
     locationModal.showModal();
   } else {
     locationModal.close();
+    // Reset table if no location is selected
+    if (!selectedLocation) {
+      resetTable();
+    }
   }
 }
 
@@ -35,15 +39,43 @@ let selectedLocation = "";
 async function loadLocation(location) {
   try {
     updateHeaderText(location);
+    // Only show loading spinner after location is selected
+    const tableBody = document.getElementById("janazaTableBody");
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="5" class="text-center">
+          <span class="loading loading-spinner"></span> Loading members...
+        </td>
+      </tr>
+    `;
+    
     const data = await window.api.fetchMembers(location);
-    console.log(data);
     updateJanazaData(data, location);
     renderJanazaTable(data);
   } catch (error) {
     console.error(error);
+    const tableBody = document.getElementById("janazaTableBody");
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="5" class="text-center text-error">
+          Error loading members. Please try again.
+        </td>
+      </tr>
+    `;
   }
 
   console.log("Loading location: " + location);
+}
+
+function resetTable() {
+  const tableBody = document.getElementById("janazaTableBody");
+  tableBody.innerHTML = `
+    <tr>
+      <td colspan="5" class="text-center text-lg">
+        Select a Location
+      </td>
+    </tr>
+  `;
 }
 
 function updateJanazaData(data, location) {
@@ -139,9 +171,10 @@ function renderJanazaTable(data) {
 }
 
 let lastClickTime = 0;
-const COOLDOWN_PERIOD = 2000; // 2 seconds in milliseconds
+const COOLDOWN_PERIOD = 2000; // 2 seconds cooldown
 
-async function handleMonthButtonClick(button, JanazaData, month, location) {
+async function handleMonthButtonClick(button, member, month, location) {
+  // Implement cooldown to prevent rapid clicks
   const currentTime = Date.now();
   if (currentTime - lastClickTime < COOLDOWN_PERIOD) {
     console.log("Cooldown period active. Please wait.");
@@ -153,31 +186,44 @@ async function handleMonthButtonClick(button, JanazaData, month, location) {
   button.innerHTML = `<span class="loading loading-spinner"></span>`;
 
   try {
-    const currentStatus = JanazaData.janaza_2024[month.toLowerCase()];
+    const currentStatus = member.janaza_2024?.[month.toLowerCase()] || "Not Paid";
     const updatedStatus = currentStatus === "Paid" ? "Not Paid" : "Paid";
-    const memberId = JanazaData._id;
+    const memberId = member._id;
 
-    console.log("Member ID being sent:", memberId);
-    console.log("Updating status from", currentStatus, "to", updatedStatus);
+    console.log("Making updateMemberStatus call:", {
+      memberId,
+      month,
+      updatedStatus,
+      location
+    });
 
-    await window.api.updateMemberStatusInDb(
+    const result = await window.api.updateMemberStatus(
       memberId,
       month,
       updatedStatus,
       location
     );
 
-    button.classList.add(
-      updatedStatus === "Paid" ? "btn-success" : "btn-error"
-    );
+    if (!result.success) {
+      throw new Error(result.error || "Failed to update status");
+    }
+
+    // Just update the button state without refreshing the table
+    button.classList.add(updatedStatus === "Paid" ? "btn-success" : "btn-error");
     button.textContent = month.charAt(0).toUpperCase() + month.slice(1);
 
-    const updatedData = await window.api.fetchMembers(location);
-    renderJanazaTable(updatedData);
+    // Update the local data instead of refreshing
+    if (member.janaza_2024) {
+      member.janaza_2024[month] = updatedStatus;
+    } else {
+      member.janaza_2024 = { [month]: updatedStatus };
+    }
+
   } catch (error) {
-    console.error("Error updating member status:", error);
+    console.error("Error updating payment status:", error);
     button.classList.add("btn-error");
     button.textContent = month.charAt(0).toUpperCase() + month.slice(1);
+    showErrorToast(`Failed to update payment status: ${error.message}`);
   }
 }
 
@@ -214,6 +260,16 @@ document
         address,
         location: selectedLocation,
       });
+
+      // Show loading state
+      const tableBody = document.getElementById("janazaTableBody");
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="5" class="text-center">
+            <span class="loading loading-spinner"></span> Adding member...
+          </td>
+        </tr>
+      `;
 
       const result = await window.api.addMember({
         name,
@@ -304,6 +360,17 @@ document
       };
 
       console.log("Sending update data:", updateData);
+
+      // Show loading state
+      const tableBody = document.getElementById("janazaTableBody");
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="5" class="text-center">
+            <span class="loading loading-spinner"></span> Updating member...
+          </td>
+        </tr>
+      `;
+
       result = await window.api.updateMember(updateData);
 
       if (result && result.success) {
@@ -391,8 +458,13 @@ async function deleteMember() {
 
     if (result.success) {
       console.log("Member deleted:", result);
-      closeEditMemberModal();
-      window.location.reload(); // Refresh the entire page
+      showEditMemberModal(false);
+      
+      // Refresh the current location instead of reloading the page
+      if (selectedLocation) {
+        await loadLocation(selectedLocation);
+      }
+      
       showToast("Member deleted successfully!", "success");
     } else {
       throw new Error(result.message || "Failed to delete member");

@@ -1,9 +1,18 @@
 const { MongoClient, ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
-require("dotenv").config();
+const path = require("path");
+const envPath =
+  process.env.NODE_ENV === "development"
+    ? ".env"
+    : path.join(process.resourcesPath, ".env");
+require("dotenv").config({ path: envPath });
 
 const uri = process.env.MONGO_URI;
+mongoose.connect(uri, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
 
 let client;
 
